@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import userModel from '../models/userModel';
+import userModel from '../models/userModel.js';
 
 
 export const register = async (req,res) =>{
@@ -36,7 +36,7 @@ maxAge: 7* 24 * 60 * 60 * 1000
 
 
 
-export const login = async ()=>{
+export const login = async (req,res)=>{
     const{email,password} = req.body; 
     if(!email || !password){
         return res.json({success:false,message:'Email and password are required'})
