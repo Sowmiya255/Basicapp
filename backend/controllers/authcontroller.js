@@ -38,6 +38,7 @@ const mailOptions = {
 }
 
 await transporter.sendMail(mailOptions);
+
 return res.json({success: true});
 
 }catch(error) {
@@ -87,6 +88,7 @@ return res.json({success:true});
 
 
 
+
 export const logout = async(req,res) =>{
     try{
         res.clearCookie('token',{
@@ -102,12 +104,17 @@ sameSite : process.env.NODE_ENV === 'production' ? 'none':'strict',
     }
     }
 
+    
+
      export const sendVerifyOtp=async (req,res) =>{
         try{
-            const(userId) = req.body;
-            const user = await userModel.findById(userId);
+
+            const{userId} = req.body;
+
+         const user = await userModel.findById(userId);
+
             if(user.isAccountVerified){
-                return res.json({success:false,message:"Account already verifies"})
+                return res.json({success:false,message:"Account already verified"});
             }
            const otp =  String(Math.floor( 100000 + Math.random * 900000));
 
@@ -130,8 +137,11 @@ sameSite : process.env.NODE_ENV === 'production' ? 'none':'strict',
         }
      }
 
+
+
      export const verifyEmail = async(req,res)=> {
-        const{userId,otp} = req.body;
+
+        const{userId,otp}=req.body;
 
         if(!userId || !otp){
             return res.json({success:false,message:'Missing Details'});
@@ -153,7 +163,7 @@ user.isAccountVerified =true;
 user.verifyOtp ='';
 user.verifyOtpExpireAt=0;
 await user.save();
-returnres.json({success:true,message:'Email verified successfully'});
+return res.json({success:true,message:'Email verified successfully'});
         }catch(error){
             return res.json({success:false,message:error.message});
         }
